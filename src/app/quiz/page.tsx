@@ -46,14 +46,31 @@ export default function QuizEngine() {
   }, [currentQuestionIndex]);
 
   if (matchStatus === 'finished') {
+    const didWin = leaderboard[0]?.id === '1';
+    const pot = useQuizStore.getState().playersInRoom * useQuizStore.getState().entryFee;
+
     return (
       <main className="p-6 flex flex-col h-full max-w-md mx-auto justify-center">
         <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-8 text-center flex flex-col items-center rounded-3xl shadow-sm">
-          <div className="w-20 h-20 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mb-6">
-            <span className="text-4xl">🏆</span>
+          <div className={clsx(
+            "w-20 h-20 rounded-full flex items-center justify-center mb-6",
+            didWin ? "bg-yellow-100 dark:bg-yellow-900/30" : "bg-zinc-100 dark:bg-zinc-900/50"
+          )}>
+            <span className="text-4xl">{didWin ? '🏆' : '💀'}</span>
           </div>
           <h2 className="text-3xl font-black mb-2 text-zinc-900 dark:text-white">Match Over!</h2>
-          <p className="text-zinc-500 dark:text-zinc-400 mb-8 font-bold">Final Scores</p>
+          
+          {didWin ? (
+            <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-bold px-6 py-3 rounded-full mb-6 border border-green-500 w-full shadow-sm">
+              You Won KSh {pot}!
+            </div>
+          ) : (
+            <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-bold px-6 py-3 rounded-full mb-6 border border-red-500 w-full shadow-sm">
+              You Lost KSh {useQuizStore.getState().entryFee}
+            </div>
+          )}
+
+          <p className="text-zinc-500 dark:text-zinc-400 mb-6 font-bold w-full text-left">Final Scores</p>
           
           <div className="w-full flex flex-col gap-3">
             {leaderboard.map((p, i) => (

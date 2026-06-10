@@ -178,14 +178,32 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   },
   
   endMatch: () => {
-    // Mock ending match and generating leaderboard
+    const { playersInRoom, entryFee, walletBalance } = get();
+    // Generate mock leaderboard
+    const myScore = Math.floor(Math.random() * 6);
+    const myTime = Math.floor(Math.random() * 30) + 10;
+    
+    const board = [
+      { id: '1', name: 'You', score: myScore, timeTaken: myTime },
+      { id: '2', name: 'Player 2', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
+      { id: '3', name: 'Player 3', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
+      { id: '4', name: 'Player 4', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
+      { id: '5', name: 'Player 5', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
+    ].slice(0, playersInRoom); // Only show as many players as were in the room
+    
+    // Sort board by score (desc), then time (asc)
+    board.sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
+    
+    const didWin = board[0].id === '1';
+    const pot = playersInRoom * entryFee;
+    
+    if (didWin) {
+      set({ walletBalance: walletBalance + pot });
+    }
+
     set({
       matchStatus: 'finished',
-      leaderboard: [
-        { id: '1', name: 'You', score: Math.floor(Math.random() * 6), timeTaken: 20 },
-        { id: '2', name: 'Player 2', score: 4, timeTaken: 25 },
-        { id: '3', name: 'Player 3', score: 3, timeTaken: 30 },
-      ]
+      leaderboard: board
     });
   },
   
