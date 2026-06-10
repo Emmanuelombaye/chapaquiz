@@ -75,8 +75,12 @@ export default function QuizEngine() {
             </div>
           ) : (
             <div className="bg-zinc-100 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 font-bold px-6 py-4 rounded-3xl mb-6 border border-zinc-200 dark:border-zinc-700 w-full shadow-sm text-center">
-              <p className="text-xl font-bold mb-1 text-zinc-800 dark:text-zinc-200">Great effort!</p>
-              <p className="text-sm">You weren't the fastest this round, but keep practicing. Better luck next time!</p>
+              <p className="text-xl font-bold mb-1 text-zinc-800 dark:text-zinc-200">
+                {['Almost had it!', 'Tough break!', 'So close!', 'Oof, that was fast!', 'Better luck next time!'][Math.floor(Math.random() * 5)]}
+              </p>
+              <p className="text-sm">
+                {['You weren\'t the fastest this round, but keep practicing.', 'Your opponents were just a bit quicker today.', 'Don\'t give up, your next win is just around the corner.', 'Dust yourself off and try another arena.'][Math.floor(Math.random() * 4)]}
+              </p>
             </div>
           )}
 

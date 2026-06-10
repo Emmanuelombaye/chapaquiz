@@ -10,19 +10,23 @@ export default function Home() {
   const router = useRouter();
   const { walletBalance, matchStatus, joinMatch, playersInRoom, targetPlayers, entryFee, setEntryFee } = useQuizStore();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (matchStatus === 'live') {
+      setIsLoading(false);
       router.push('/quiz');
     }
   }, [matchStatus, router]);
 
   const handlePlayClick = () => {
+    if (isLoading) return;
     if (walletBalance < entryFee) {
       setErrorMsg(`Insufficient balance! You need KSh ${entryFee} to play this tier. Please deposit funds.`);
       setTimeout(() => setErrorMsg(null), 4000);
       return;
     }
+    setIsLoading(true);
     joinMatch();
   };
 
@@ -117,10 +121,18 @@ export default function Home() {
 
             <button 
               onClick={handlePlayClick}
-              className="relative w-full bg-green-600 hover:bg-green-500 text-white p-8 rounded-3xl flex flex-col items-center justify-center gap-3 shadow-[0_8px_0_#166534] active:shadow-[0_0px_0_#166534] active:translate-y-2 transition-all group overflow-hidden"
+              disabled={isLoading}
+              className={clsx(
+                "relative w-full text-white p-8 rounded-3xl flex flex-col items-center justify-center gap-3 shadow-[0_8px_0_#166534] active:shadow-[0_0px_0_#166534] active:translate-y-2 transition-all group overflow-hidden",
+                isLoading ? "bg-green-700 opacity-80" : "bg-green-600 hover:bg-green-500"
+              )}
             >
-              <Play className="w-12 h-12 fill-white" />
-              <span className="text-3xl font-black tracking-tight">Play Arena</span>
+              {isLoading ? (
+                <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <Play className="w-12 h-12 fill-white" />
+              )}
+              <span className="text-3xl font-black tracking-tight">{isLoading ? 'Loading...' : 'Play Arena'}</span>
               <span className="bg-black/20 px-4 py-1.5 rounded-full text-sm font-bold mt-1">
                 Win KSh {(entryFee * 5 * 0.8).toFixed(0)}+
               </span>
@@ -129,16 +141,19 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-4 mt-2">
               <button 
                 onClick={() => {
+                  if (isLoading) return;
                   if (walletBalance < entryFee) {
                     setErrorMsg(`Insufficient balance to host. You need KSh ${entryFee}.`);
                     setTimeout(() => setErrorMsg(null), 4000);
                   } else {
+                    setIsLoading(true);
                     useQuizStore.getState().createPrivateMatch();
                   }
                 }}
+                disabled={isLoading}
                 className="bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-700 p-5 rounded-[24px] flex flex-col items-center justify-center gap-3 shadow-[0_6px_0_#e4e4e7] dark:shadow-[0_6px_0_#3f3f46] active:shadow-[0_0px_0_#e4e4e7] dark:active:shadow-[0_0px_0_#3f3f46] active:translate-y-1.5 transition-all text-center"
               >
-                <Users className="w-8 h-8 text-blue-600 dark:text-blue-500" />
+                {isLoading ? <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /> : <Users className="w-8 h-8 text-blue-600 dark:text-blue-500" />}
                 <span className="font-bold leading-tight">Play with<br/>Friends</span>
               </button>
 

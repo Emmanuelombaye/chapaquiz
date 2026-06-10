@@ -72,7 +72,7 @@ export default function Wallet() {
   };
 
   return (
-    <main className="p-6 flex flex-col h-full max-w-md mx-auto relative">
+    <main className="p-6 flex flex-col min-h-screen max-w-md mx-auto relative pb-32">
       <header className="flex items-center gap-4 mt-4 mb-8">
         <button 
           onClick={() => router.push('/')}
