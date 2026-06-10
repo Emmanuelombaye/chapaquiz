@@ -23,6 +23,7 @@ interface QuizState {
   // Matchmaking
   matchStatus: MatchStatus | 'invite';
   playersInRoom: number;
+  targetPlayers: number;
   entryFee: number;
   privateMatchId: string | null;
   
@@ -36,10 +37,11 @@ interface QuizState {
   
   // Actions
   setWalletBalance: (balance: number) => void;
+  setEntryFee: (fee: number) => void;
   setMatchStatus: (status: MatchStatus | 'invite') => void;
   joinMatch: () => void;
   createPrivateMatch: () => string;
-  joinPrivateMatch: (id: string) => void;
+  joinPrivateMatch: (id: string, customFee?: number) => void;
   submitAnswer: (questionIndex: number, selectedOption: number) => void;
   endMatch: () => void;
   decrementTimer: () => void;
@@ -98,11 +100,12 @@ const shuffleArray = <T>(array: T[]): T[] => {
 };
 
 export const useQuizStore = create<QuizState>((set, get) => ({
-  walletBalance: 50,
+  walletBalance: 150,
   
   matchStatus: 'idle',
   playersInRoom: 0,
-  entryFee: 20,
+  targetPlayers: 5,
+  entryFee: 10,
   privateMatchId: null,
   
   questions: [],
@@ -112,29 +115,39 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   leaderboard: [],
   
   setWalletBalance: (balance) => set({ walletBalance: balance }),
+  setEntryFee: (fee) => set({ entryFee: fee }),
   setMatchStatus: (status) => set({ matchStatus: status }),
   
   joinMatch: () => {
-    // Mock joining a public match
     const { walletBalance, entryFee } = get();
     if (walletBalance >= entryFee) {
+      // Randomize players between 2 and 10
+      const randomTotalPlayers = Math.floor(Math.random() * 9) + 2;
+      
       set({ 
         walletBalance: walletBalance - entryFee,
         matchStatus: 'waiting',
         playersInRoom: 1,
+        targetPlayers: randomTotalPlayers,
         questions: shuffleArray(KENYAN_QUESTIONS_BANK).slice(0, 5)
       });
       
-      // Simulate other players joining
-      setTimeout(() => set({ playersInRoom: 2 }), 1000);
-      setTimeout(() => set({ playersInRoom: 3 }), 2000);
-      setTimeout(() => set({ playersInRoom: 5, matchStatus: 'starting' }), 3000);
-      setTimeout(() => set({ matchStatus: 'live', globalTimeLeft: 60, currentQuestionIndex: 0 }), 6000);
+      // Simulate random players joining dynamically
+      let current = 1;
+      const interval = setInterval(() => {
+        current += Math.floor(Math.random() * 2) + 1;
+        if (current >= randomTotalPlayers) {
+          clearInterval(interval);
+          set({ playersInRoom: randomTotalPlayers, matchStatus: 'starting' });
+          setTimeout(() => set({ matchStatus: 'live', globalTimeLeft: 60, currentQuestionIndex: 0 }), 2000);
+        } else {
+          set({ playersInRoom: current });
+        }
+      }, 1200);
     }
   },
 
   createPrivateMatch: () => {
-    // Generates a mock invite link room ID and puts host in waiting room
     const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
     const { walletBalance, entryFee } = get();
     if (walletBalance >= entryFee) {
@@ -143,62 +156,74 @@ export const useQuizStore = create<QuizState>((set, get) => ({
         matchStatus: 'invite',
         privateMatchId: roomId,
         playersInRoom: 1,
+        targetPlayers: 5, // Private matches default to 5 unless host specifies otherwise
         questions: shuffleArray(KENYAN_QUESTIONS_BANK).slice(0, 5)
       });
     }
     return roomId;
   },
 
-  joinPrivateMatch: (id) => {
-    const { walletBalance, entryFee } = get();
-    if (walletBalance >= entryFee) {
+  joinPrivateMatch: (id, customFee) => {
+    const feeToUse = customFee || get().entryFee;
+    const { walletBalance } = get();
+    
+    if (walletBalance >= feeToUse) {
+      // Setting entry fee to the host's custom fee for math purposes
       set({
-        walletBalance: walletBalance - entryFee,
+        walletBalance: walletBalance - feeToUse,
+        entryFee: feeToUse,
         matchStatus: 'waiting',
         privateMatchId: id,
-        playersInRoom: 2, // Assuming host is there
+        playersInRoom: 2,
+        targetPlayers: Math.floor(Math.random() * 4) + 2,
         questions: shuffleArray(KENYAN_QUESTIONS_BANK).slice(0, 5)
       });
       
-      // Simulate starting the private match once someone joins
       setTimeout(() => set({ matchStatus: 'starting' }), 2000);
-      setTimeout(() => set({ matchStatus: 'live', globalTimeLeft: 60, currentQuestionIndex: 0 }), 5000);
+      setTimeout(() => set({ matchStatus: 'live', globalTimeLeft: 60, currentQuestionIndex: 0 }), 4000);
     }
   },
   
   submitAnswer: (questionIndex, selectedOption) => {
-    // This will be replaced by socket.io emit later
     const { questions, currentQuestionIndex, endMatch } = get();
-    // Move to next question if not at the end
     if (currentQuestionIndex < questions.length - 1) {
-      setTimeout(() => set({ currentQuestionIndex: currentQuestionIndex + 1 }), 500); // Small delay for visual feedback
+      setTimeout(() => set({ currentQuestionIndex: currentQuestionIndex + 1 }), 500); 
     } else {
-      setTimeout(() => endMatch(), 500); // End match automatically after the last question!
+      setTimeout(() => endMatch(), 500); 
     }
   },
   
   endMatch: () => {
     const { playersInRoom, entryFee, walletBalance } = get();
-    // Generate mock leaderboard
     const myScore = Math.floor(Math.random() * 6);
     const myTime = Math.floor(Math.random() * 30) + 10;
     
-    const board = [
-      { id: '1', name: 'You', score: myScore, timeTaken: myTime },
-      { id: '2', name: 'Player 2', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
-      { id: '3', name: 'Player 3', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
-      { id: '4', name: 'Player 4', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
-      { id: '5', name: 'Player 5', score: Math.floor(Math.random() * 6), timeTaken: Math.floor(Math.random() * 40) + 15 },
-    ].slice(0, playersInRoom); // Only show as many players as were in the room
+    // Generate leaderboard based on exact dynamic playersInRoom
+    const board = [{ id: '1', name: 'You', score: myScore, timeTaken: myTime }];
+    
+    for (let i = 2; i <= playersInRoom; i++) {
+      board.push({
+        id: i.toString(),
+        name: `Player ${i}`,
+        score: Math.floor(Math.random() * 6),
+        timeTaken: Math.floor(Math.random() * 40) + 15
+      });
+    }
     
     // Sort board by score (desc), then time (asc)
     board.sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
     
     const didWin = board[0].id === '1';
-    const pot = playersInRoom * entryFee;
+    
+    // Exact Math requested by user:
+    // Pot = 10 players * 10 fee = 100
+    // Winner = 100 minus 20% system fee = 80
+    const totalPot = playersInRoom * entryFee;
+    const platformFee = totalPot * 0.20;
+    const winnings = totalPot - platformFee;
     
     if (didWin) {
-      set({ walletBalance: walletBalance + pot });
+      set({ walletBalance: walletBalance + winnings });
     }
 
     set({

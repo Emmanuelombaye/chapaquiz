@@ -2,14 +2,30 @@
 
 import { useQuizStore } from '@/store/useQuizStore';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, ArrowUpRight, ArrowDownLeft, Clock } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, ArrowDownLeft, Clock, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import clsx from 'clsx';
 
 export default function Wallet() {
   const router = useRouter();
   const { walletBalance, setWalletBalance } = useQuizStore();
+  const [processingId, setProcessingId] = useState<number | null>(null);
+  const [successId, setSuccessId] = useState<number | null>(null);
 
   const handleDeposit = (amount: number) => {
-    setWalletBalance(walletBalance + amount);
+    if (processingId !== null) return;
+    
+    setProcessingId(amount);
+    
+    // Simulate real network delay for deposit
+    setTimeout(() => {
+      setWalletBalance(walletBalance + amount);
+      setProcessingId(null);
+      setSuccessId(amount);
+      
+      // Clear success state after 2 seconds
+      setTimeout(() => setSuccessId(null), 2000);
+    }, 1500);
   };
 
   return (
@@ -24,10 +40,10 @@ export default function Wallet() {
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Wallet</h1>
       </header>
 
-      <div className="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-8 mb-8 border border-zinc-800 dark:border-zinc-700 shadow-md">
+      <div className="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-8 mb-8 border border-zinc-800 dark:border-zinc-700 shadow-md transition-all">
         <div className="text-center">
           <p className="text-zinc-400 font-bold tracking-wider text-sm uppercase mb-2">Available Balance</p>
-          <h2 className="text-5xl font-black tracking-tight text-white">
+          <h2 className="text-5xl font-black tracking-tight text-white transition-all">
             <span className="text-2xl text-zinc-500 mr-1">KSh</span>{walletBalance}
           </h2>
         </div>
@@ -50,15 +66,38 @@ export default function Wallet() {
           Quick M-Pesa Deposit
         </h3>
         <div className="grid grid-cols-2 gap-3">
-          {[50, 100, 200, 500].map(amount => (
-            <button 
-              key={amount}
-              onClick={() => handleDeposit(amount)}
-              className="bg-white dark:bg-zinc-800 border-2 border-zinc-200 dark:border-zinc-700 p-4 text-center font-bold text-lg text-zinc-900 dark:text-white rounded-2xl hover:border-green-500 dark:hover:border-green-500 transition-colors active:scale-95"
-            >
-              + KSh {amount}
-            </button>
-          ))}
+          {[10, 20, 50, 100].map(amount => {
+            const isProcessing = processingId === amount;
+            const isSuccess = successId === amount;
+
+            return (
+              <button 
+                key={amount}
+                onClick={() => handleDeposit(amount)}
+                disabled={processingId !== null}
+                className={clsx(
+                  "border-2 p-4 text-center font-bold text-lg rounded-2xl transition-all",
+                  isProcessing ? "bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-400 dark:text-zinc-500" :
+                  isSuccess ? "bg-green-100 dark:bg-green-900/30 border-green-500 text-green-700 dark:text-green-400" :
+                  "bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-white hover:border-green-500 dark:hover:border-green-500 active:scale-95 shadow-sm"
+                )}
+              >
+                {isProcessing ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 rounded-full border-2 border-zinc-400 border-t-transparent animate-spin" />
+                    Processing
+                  </span>
+                ) : isSuccess ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <CheckCircle2 className="w-5 h-5" />
+                    Success!
+                  </span>
+                ) : (
+                  `+ KSh ${amount}`
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </main>

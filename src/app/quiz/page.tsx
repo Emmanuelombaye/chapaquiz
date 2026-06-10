@@ -47,26 +47,36 @@ export default function QuizEngine() {
 
   if (matchStatus === 'finished') {
     const didWin = leaderboard[0]?.id === '1';
-    const pot = useQuizStore.getState().playersInRoom * useQuizStore.getState().entryFee;
+    
+    // Dynamic math breakdown
+    const playersInRoom = useQuizStore.getState().playersInRoom;
+    const entryFee = useQuizStore.getState().entryFee;
+    const totalPot = playersInRoom * entryFee;
+    const platformFee = totalPot * 0.20;
+    const winnings = totalPot - platformFee;
 
     return (
       <main className="p-6 flex flex-col h-full max-w-md mx-auto justify-center">
         <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-8 text-center flex flex-col items-center rounded-3xl shadow-sm">
           <div className={clsx(
             "w-20 h-20 rounded-full flex items-center justify-center mb-6",
-            didWin ? "bg-yellow-100 dark:bg-yellow-900/30" : "bg-zinc-100 dark:bg-zinc-900/50"
+            didWin ? "bg-yellow-100 dark:bg-yellow-900/30" : "bg-blue-100 dark:bg-blue-900/30"
           )}>
-            <span className="text-4xl">{didWin ? '🏆' : '💀'}</span>
+            <span className="text-4xl">{didWin ? '🏆' : '💪'}</span>
           </div>
           <h2 className="text-3xl font-black mb-2 text-zinc-900 dark:text-white">Match Over!</h2>
           
           {didWin ? (
-            <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-bold px-6 py-3 rounded-full mb-6 border border-green-500 w-full shadow-sm">
-              You Won KSh {pot}!
+            <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-bold px-6 py-4 rounded-3xl mb-6 border border-green-500 w-full shadow-sm text-left">
+              <p className="text-2xl font-black mb-2 text-center text-green-800 dark:text-green-300">You Won!</p>
+              <div className="flex justify-between text-sm mb-1"><span>Total Pot ({playersInRoom} players):</span> <span>KSh {totalPot}</span></div>
+              <div className="flex justify-between text-sm mb-2 text-green-600/80 dark:text-green-400/80"><span>Platform Fee (20%):</span> <span>-KSh {platformFee}</span></div>
+              <div className="flex justify-between text-lg border-t border-green-500/30 pt-2 mt-2"><span>Payout:</span> <span>+KSh {winnings}</span></div>
             </div>
           ) : (
-            <div className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 font-bold px-6 py-3 rounded-full mb-6 border border-red-500 w-full shadow-sm">
-              You Lost KSh {useQuizStore.getState().entryFee}
+            <div className="bg-zinc-100 dark:bg-zinc-900/50 text-zinc-600 dark:text-zinc-400 font-bold px-6 py-4 rounded-3xl mb-6 border border-zinc-200 dark:border-zinc-700 w-full shadow-sm text-center">
+              <p className="text-xl font-bold mb-1 text-zinc-800 dark:text-zinc-200">Great effort!</p>
+              <p className="text-sm">You weren't the fastest this round, but keep practicing. Better luck next time!</p>
             </div>
           )}
 
