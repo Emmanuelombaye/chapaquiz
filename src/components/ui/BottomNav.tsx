@@ -22,7 +22,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="absolute bottom-0 w-full bg-slate-950/90 backdrop-blur-xl border-t border-slate-800 pb-6 pt-3 px-8 flex justify-between items-center z-50 rounded-b-[32px]">
+    <nav className="absolute bottom-0 w-full bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-800 pb-6 pt-3 px-8 flex justify-between items-center z-50 sm:rounded-b-[24px]">
       {navItems.map((item) => {
         const isActive = pathname === item.path;
         const Icon = item.icon;
@@ -31,9 +31,9 @@ export default function BottomNav() {
           <Link href={item.path} key={item.name} className="flex-1">
             <div className={clsx(
               "flex flex-col items-center gap-1.5 transition-all duration-200",
-              isActive ? "text-neon-blue scale-110" : "text-slate-500 hover:text-slate-300"
+              isActive ? "text-green-600 dark:text-green-500 scale-110" : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
             )}>
-              <Icon className={clsx("w-6 h-6", isActive && "fill-neon-blue/20")} />
+              <Icon className={clsx("w-6 h-6", isActive && "fill-green-600/20 dark:fill-green-500/20")} />
               <span className="text-[10px] font-bold tracking-widest uppercase">{item.name}</span>
             </div>
           </Link>

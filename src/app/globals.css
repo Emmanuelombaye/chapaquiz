@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617; /* Slate 950 for deep black/blue */
-  --foreground: #f8fafc;
+  --background: #f4f4f5; /* zinc-100 */
+  --foreground: #09090b; /* zinc-950 */
+}
+
+.dark {
+  --background: #18181b; /* zinc-900 */
+  --foreground: #fafafa; /* zinc-50 */
 }
 
 html {
   height: 100%;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: radial-gradient(circle at center, #0f172a 0%, #000000 100%);
+  background-color: var(--foreground);
 }
 
 body {
@@ -27,7 +28,6 @@ body {
   margin-left: auto;
   margin-right: auto;
   max-width: 430px; /* iPhone Pro Max width approx */
-  box-shadow: 0 0 50px rgba(14, 165, 233, 0.15); /* neon blue shadow */
 }
 
 /* When on desktop/tablets, make it look like a physical phone */
@@ -36,15 +36,9 @@ body {
     height: 90vh;
     border-radius: 32px;
     overflow: hidden;
-    border: 8px solid #1e293b; /* Slate 800 border for phone bezel */
+    border: 8px solid #27272a; /* zinc-800 phone bezel */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); /* standard drop shadow, no neon */
   }
-}
-
-.glass {
-  background-color: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid #1e293b;
-  border-radius: 1rem;
 }
 
 /* Hide scrollbar for layout */
