@@ -24,8 +24,8 @@ export default function Wallet() {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const handleTransactionInitiate = () => {
-    if (phone.length < 10) {
-      alert("Please enter a valid M-Pesa number");
+    if (phone.length !== 10) {
+      alert("Please enter exactly 10 digits for your M-Pesa number.");
       return;
     }
     if (activeTab === 'withdraw' && amount > walletBalance) {
@@ -149,7 +149,8 @@ export default function Wallet() {
             <input 
               type="tel" 
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))}
+              placeholder="07XXXXXXXX"
               className="w-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-200 dark:border-zinc-700 rounded-xl pl-12 pr-4 py-3 font-bold text-zinc-900 dark:text-white focus:outline-none focus:border-green-500"
             />
           </div>
@@ -202,11 +203,11 @@ export default function Wallet() {
                   maxLength={4}
                   value={pin}
                   onChange={(e) => {
-                    setPin(e.target.value.replace(/[^0-9]/g, ''));
+                    setPin(e.target.value.replace(/[^0-9]/g, '').slice(0, 4));
                     setPinError('');
                   }}
-                  placeholder="Enter 4-Digit PIN"
-                  className="w-full text-center tracking-[1em] text-2xl bg-zinc-50 border-2 border-zinc-200 rounded-xl px-4 py-3 font-bold focus:outline-none focus:border-[#25D366]"
+                  placeholder="****"
+                  className="w-full text-center tracking-[1em] text-3xl bg-zinc-50 border-2 border-zinc-200 rounded-xl px-4 py-4 font-black text-zinc-900 focus:outline-none focus:border-[#25D366]"
                 />
                 {pinError && <p className="text-red-500 text-sm font-bold mt-2 text-center">{pinError}</p>}
               </div>
