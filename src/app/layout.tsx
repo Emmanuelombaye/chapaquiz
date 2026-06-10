@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={`dark ${inter.className}`}>
       <body>
         <div className="flex-1 overflow-y-auto pb-24 relative z-0 hide-scrollbar">
           {children}
