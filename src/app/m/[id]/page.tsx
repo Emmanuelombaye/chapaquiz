@@ -3,11 +3,12 @@
 import { useQuizStore } from '@/store/useQuizStore';
 import { useRouter } from 'next/navigation';
 import { Play, ArrowLeft } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, use } from 'react';
 
-export default function JoinPrivateMatch({ params }: { params: { id: string } }) {
+export default function JoinPrivateMatch({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { walletBalance, entryFee, matchStatus, joinPrivateMatch } = useQuizStore();
+  const resolvedParams = use(params);
 
   useEffect(() => {
     // If the match starts, redirect to quiz
@@ -18,7 +19,7 @@ export default function JoinPrivateMatch({ params }: { params: { id: string } })
 
   const handleJoin = () => {
     if (walletBalance >= entryFee) {
-      joinPrivateMatch(params.id);
+      joinPrivateMatch(resolvedParams.id);
       router.push('/'); // Go to lobby which will show the waiting room
     } else {
       router.push('/wallet');
@@ -35,7 +36,7 @@ export default function JoinPrivateMatch({ params }: { params: { id: string } })
         <h2 className="text-3xl font-black mb-2 text-white">You're Invited!</h2>
         <p className="text-slate-400 mb-8 leading-relaxed">
           You've been challenged to a private 60-second quiz match. 
-          Room ID: <span className="text-neon-accent font-mono">{params.id}</span>
+          Room ID: <span className="text-neon-accent font-mono">{resolvedParams.id}</span>
         </p>
 
         <div className="w-full bg-slate-950 p-4 rounded-xl border border-slate-800 mb-8 flex justify-between items-center">
