@@ -15,6 +15,19 @@ export default function Home() {
   const isLoading = loadingType !== null;
 
   useEffect(() => {
+    // Reset stuck states on mount
+    const state = useQuizStore.getState();
+    if (state.matchStatus === 'waiting' || state.matchStatus === 'starting') {
+      useQuizStore.setState({ 
+        matchStatus: 'idle', 
+        walletBalance: state.walletBalance + state.entryFee 
+      });
+    } else if (state.matchStatus === 'finished') {
+      useQuizStore.setState({ matchStatus: 'idle' });
+    }
+  }, []);
+
+  useEffect(() => {
     if (matchStatus === 'live') {
       setLoadingType(null);
       router.push('/quiz');

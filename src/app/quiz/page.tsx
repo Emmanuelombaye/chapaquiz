@@ -104,7 +104,13 @@ export default function QuizEngine() {
             ))}
           </div>
 
-          <button onClick={() => router.push('/')} className="mt-8 w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-bold py-4 rounded-xl transition-colors">
+          <button 
+            onClick={() => {
+              useQuizStore.setState({ matchStatus: 'idle' });
+              router.push('/');
+            }} 
+            className="mt-8 w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-bold py-4 rounded-xl transition-colors"
+          >
             Return to Lobby
           </button>
         </div>
