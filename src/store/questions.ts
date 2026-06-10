@@ -448,7 +448,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f1",
-    "text": "We asked 100 people: Name something you do when you wake up. (Question 1)",
+    "text": "We asked 100 people: Name something you do when you wake up.",
     "options": [
       "Brush teeth",
       "Check phone",
@@ -459,7 +459,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f2",
-    "text": "Name a reason you might be late to work. (Question 2)",
+    "text": "Name a reason you might be late to work.",
     "options": [
       "Traffic",
       "Overslept",
@@ -470,7 +470,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f3",
-    "text": "Name something you associate with a dog. (Question 3)",
+    "text": "Name something you associate with a dog.",
     "options": [
       "Bone",
       "Bark",
@@ -481,7 +481,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f4",
-    "text": "Name a food that is notoriously messy to eat. (Question 4)",
+    "text": "Name a food that is notoriously messy to eat.",
     "options": [
       "Spaghetti",
       "Ribs",
@@ -492,7 +492,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f5",
-    "text": "Name something you keep in your car glovebox. (Question 5)",
+    "text": "Name something you keep in your car glovebox.",
     "options": [
       "Napkins",
       "Manual",
@@ -503,7 +503,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f6",
-    "text": "Name a popular pizza topping. (Question 6)",
+    "text": "Name a popular pizza topping.",
     "options": [
       "Pepperoni",
       "Mushrooms",
@@ -514,7 +514,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f7",
-    "text": "Name a country famous for its chocolate. (Question 7)",
+    "text": "Name a country famous for its chocolate.",
     "options": [
       "Switzerland",
       "Belgium",
@@ -525,7 +525,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f8",
-    "text": "Name an activity people do at the beach. (Question 8)",
+    "text": "Name an activity people do at the beach.",
     "options": [
       "Swim",
       "Sunbathe",
@@ -536,7 +536,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f9",
-    "text": "Name something you need to buy before a road trip. (Question 9)",
+    "text": "Name something you need to buy before a road trip.",
     "options": [
       "Snacks",
       "Gas",
@@ -547,7 +547,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f10",
-    "text": "Name a profession that requires a uniform. (Question 10)",
+    "text": "Name a profession that requires a uniform.",
     "options": [
       "Police",
       "Nurse",
@@ -558,7 +558,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f11",
-    "text": "Name something people lose all the time. (Question 11)",
+    "text": "Name something people lose all the time.",
     "options": [
       "Keys",
       "Phone",
@@ -569,7 +569,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f12",
-    "text": "Name an animal you might see at the zoo. (Question 12)",
+    "text": "Name an animal you might see at the zoo.",
     "options": [
       "Lion",
       "Monkey",
@@ -580,7 +580,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f13",
-    "text": "Name a reason someone might cry. (Question 13)",
+    "text": "Name a reason someone might cry.",
     "options": [
       "Sad",
       "Happy",
@@ -591,7 +591,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f14",
-    "text": "Name a fruit that is red. (Question 14)",
+    "text": "Name a fruit that is red.",
     "options": [
       "Apple",
       "Strawberry",
@@ -602,7 +602,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f15",
-    "text": "Name something you might find in a desk drawer. (Question 15)",
+    "text": "Name something you might find in a desk drawer.",
     "options": [
       "Pens",
       "Paperclips",
@@ -613,7 +613,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f16",
-    "text": "Name a popular board game. (Question 16)",
+    "text": "Name a popular board game.",
     "options": [
       "Monopoly",
       "Scrabble",
@@ -624,7 +624,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f17",
-    "text": "Name something people hate doing. (Question 17)",
+    "text": "Name something people hate doing.",
     "options": [
       "Laundry",
       "Dishes",
@@ -635,7 +635,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f18",
-    "text": "Name a common fear. (Question 18)",
+    "text": "Name a common fear.",
     "options": [
       "Spiders",
       "Heights",
@@ -646,7 +646,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f19",
-    "text": "Name a popular ice cream flavor. (Question 19)",
+    "text": "Name a popular ice cream flavor.",
     "options": [
       "Vanilla",
       "Chocolate",
@@ -657,7 +657,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f20",
-    "text": "Name a holiday people celebrate with family. (Question 20)",
+    "text": "Name a holiday people celebrate with family.",
     "options": [
       "Christmas",
       "Thanksgiving",
@@ -668,7 +668,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f21",
-    "text": "We asked 100 people: Name something you do when you wake up. (Question 21)",
+    "text": "We asked 100 people: Name something you do when you wake up.",
     "options": [
       "Brush teeth",
       "Check phone",
@@ -679,7 +679,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f22",
-    "text": "Name a reason you might be late to work. (Question 22)",
+    "text": "Name a reason you might be late to work.",
     "options": [
       "Traffic",
       "Overslept",
@@ -690,7 +690,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f23",
-    "text": "Name something you associate with a dog. (Question 23)",
+    "text": "Name something you associate with a dog.",
     "options": [
       "Bone",
       "Bark",
@@ -701,7 +701,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f24",
-    "text": "Name a food that is notoriously messy to eat. (Question 24)",
+    "text": "Name a food that is notoriously messy to eat.",
     "options": [
       "Spaghetti",
       "Ribs",
@@ -712,7 +712,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f25",
-    "text": "Name something you keep in your car glovebox. (Question 25)",
+    "text": "Name something you keep in your car glovebox.",
     "options": [
       "Napkins",
       "Manual",
@@ -723,7 +723,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f26",
-    "text": "Name a popular pizza topping. (Question 26)",
+    "text": "Name a popular pizza topping.",
     "options": [
       "Pepperoni",
       "Mushrooms",
@@ -734,7 +734,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f27",
-    "text": "Name a country famous for its chocolate. (Question 27)",
+    "text": "Name a country famous for its chocolate.",
     "options": [
       "Switzerland",
       "Belgium",
@@ -745,7 +745,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f28",
-    "text": "Name an activity people do at the beach. (Question 28)",
+    "text": "Name an activity people do at the beach.",
     "options": [
       "Swim",
       "Sunbathe",
@@ -756,7 +756,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f29",
-    "text": "Name something you need to buy before a road trip. (Question 29)",
+    "text": "Name something you need to buy before a road trip.",
     "options": [
       "Snacks",
       "Gas",
@@ -767,7 +767,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f30",
-    "text": "Name a profession that requires a uniform. (Question 30)",
+    "text": "Name a profession that requires a uniform.",
     "options": [
       "Police",
       "Nurse",
@@ -778,7 +778,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f31",
-    "text": "Name something people lose all the time. (Question 31)",
+    "text": "Name something people lose all the time.",
     "options": [
       "Keys",
       "Phone",
@@ -789,7 +789,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f32",
-    "text": "Name an animal you might see at the zoo. (Question 32)",
+    "text": "Name an animal you might see at the zoo.",
     "options": [
       "Lion",
       "Monkey",
@@ -800,7 +800,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f33",
-    "text": "Name a reason someone might cry. (Question 33)",
+    "text": "Name a reason someone might cry.",
     "options": [
       "Sad",
       "Happy",
@@ -811,7 +811,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f34",
-    "text": "Name a fruit that is red. (Question 34)",
+    "text": "Name a fruit that is red.",
     "options": [
       "Apple",
       "Strawberry",
@@ -822,7 +822,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f35",
-    "text": "Name something you might find in a desk drawer. (Question 35)",
+    "text": "Name something you might find in a desk drawer.",
     "options": [
       "Pens",
       "Paperclips",
@@ -833,7 +833,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f36",
-    "text": "Name a popular board game. (Question 36)",
+    "text": "Name a popular board game.",
     "options": [
       "Monopoly",
       "Scrabble",
@@ -844,7 +844,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f37",
-    "text": "Name something people hate doing. (Question 37)",
+    "text": "Name something people hate doing.",
     "options": [
       "Laundry",
       "Dishes",
@@ -855,7 +855,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f38",
-    "text": "Name a common fear. (Question 38)",
+    "text": "Name a common fear.",
     "options": [
       "Spiders",
       "Heights",
@@ -866,7 +866,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f39",
-    "text": "Name a popular ice cream flavor. (Question 39)",
+    "text": "Name a popular ice cream flavor.",
     "options": [
       "Vanilla",
       "Chocolate",
@@ -877,7 +877,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f40",
-    "text": "Name a holiday people celebrate with family. (Question 40)",
+    "text": "Name a holiday people celebrate with family.",
     "options": [
       "Christmas",
       "Thanksgiving",
@@ -888,7 +888,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f41",
-    "text": "We asked 100 people: Name something you do when you wake up. (Question 41)",
+    "text": "We asked 100 people: Name something you do when you wake up.",
     "options": [
       "Brush teeth",
       "Check phone",
@@ -899,7 +899,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f42",
-    "text": "Name a reason you might be late to work. (Question 42)",
+    "text": "Name a reason you might be late to work.",
     "options": [
       "Traffic",
       "Overslept",
@@ -910,7 +910,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f43",
-    "text": "Name something you associate with a dog. (Question 43)",
+    "text": "Name something you associate with a dog.",
     "options": [
       "Bone",
       "Bark",
@@ -921,7 +921,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f44",
-    "text": "Name a food that is notoriously messy to eat. (Question 44)",
+    "text": "Name a food that is notoriously messy to eat.",
     "options": [
       "Spaghetti",
       "Ribs",
@@ -932,7 +932,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f45",
-    "text": "Name something you keep in your car glovebox. (Question 45)",
+    "text": "Name something you keep in your car glovebox.",
     "options": [
       "Napkins",
       "Manual",
@@ -943,7 +943,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f46",
-    "text": "Name a popular pizza topping. (Question 46)",
+    "text": "Name a popular pizza topping.",
     "options": [
       "Pepperoni",
       "Mushrooms",
@@ -954,7 +954,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f47",
-    "text": "Name a country famous for its chocolate. (Question 47)",
+    "text": "Name a country famous for its chocolate.",
     "options": [
       "Switzerland",
       "Belgium",
@@ -965,7 +965,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f48",
-    "text": "Name an activity people do at the beach. (Question 48)",
+    "text": "Name an activity people do at the beach.",
     "options": [
       "Swim",
       "Sunbathe",
@@ -976,7 +976,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f49",
-    "text": "Name something you need to buy before a road trip. (Question 49)",
+    "text": "Name something you need to buy before a road trip.",
     "options": [
       "Snacks",
       "Gas",
@@ -987,7 +987,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f50",
-    "text": "Name a profession that requires a uniform. (Question 50)",
+    "text": "Name a profession that requires a uniform.",
     "options": [
       "Police",
       "Nurse",
@@ -998,7 +998,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f51",
-    "text": "Name something people lose all the time. (Question 51)",
+    "text": "Name something people lose all the time.",
     "options": [
       "Keys",
       "Phone",
@@ -1009,7 +1009,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f52",
-    "text": "Name an animal you might see at the zoo. (Question 52)",
+    "text": "Name an animal you might see at the zoo.",
     "options": [
       "Lion",
       "Monkey",
@@ -1020,7 +1020,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f53",
-    "text": "Name a reason someone might cry. (Question 53)",
+    "text": "Name a reason someone might cry.",
     "options": [
       "Sad",
       "Happy",
@@ -1031,7 +1031,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f54",
-    "text": "Name a fruit that is red. (Question 54)",
+    "text": "Name a fruit that is red.",
     "options": [
       "Apple",
       "Strawberry",
@@ -1042,7 +1042,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f55",
-    "text": "Name something you might find in a desk drawer. (Question 55)",
+    "text": "Name something you might find in a desk drawer.",
     "options": [
       "Pens",
       "Paperclips",
@@ -1053,7 +1053,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f56",
-    "text": "Name a popular board game. (Question 56)",
+    "text": "Name a popular board game.",
     "options": [
       "Monopoly",
       "Scrabble",
@@ -1064,7 +1064,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f57",
-    "text": "Name something people hate doing. (Question 57)",
+    "text": "Name something people hate doing.",
     "options": [
       "Laundry",
       "Dishes",
@@ -1075,7 +1075,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f58",
-    "text": "Name a common fear. (Question 58)",
+    "text": "Name a common fear.",
     "options": [
       "Spiders",
       "Heights",
@@ -1086,7 +1086,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f59",
-    "text": "Name a popular ice cream flavor. (Question 59)",
+    "text": "Name a popular ice cream flavor.",
     "options": [
       "Vanilla",
       "Chocolate",
@@ -1097,7 +1097,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f60",
-    "text": "Name a holiday people celebrate with family. (Question 60)",
+    "text": "Name a holiday people celebrate with family.",
     "options": [
       "Christmas",
       "Thanksgiving",
@@ -1108,7 +1108,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f61",
-    "text": "We asked 100 people: Name something you do when you wake up. (Question 61)",
+    "text": "We asked 100 people: Name something you do when you wake up.",
     "options": [
       "Brush teeth",
       "Check phone",
@@ -1119,7 +1119,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f62",
-    "text": "Name a reason you might be late to work. (Question 62)",
+    "text": "Name a reason you might be late to work.",
     "options": [
       "Traffic",
       "Overslept",
@@ -1130,7 +1130,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f63",
-    "text": "Name something you associate with a dog. (Question 63)",
+    "text": "Name something you associate with a dog.",
     "options": [
       "Bone",
       "Bark",
@@ -1141,7 +1141,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f64",
-    "text": "Name a food that is notoriously messy to eat. (Question 64)",
+    "text": "Name a food that is notoriously messy to eat.",
     "options": [
       "Spaghetti",
       "Ribs",
@@ -1152,7 +1152,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f65",
-    "text": "Name something you keep in your car glovebox. (Question 65)",
+    "text": "Name something you keep in your car glovebox.",
     "options": [
       "Napkins",
       "Manual",
@@ -1163,7 +1163,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f66",
-    "text": "Name a popular pizza topping. (Question 66)",
+    "text": "Name a popular pizza topping.",
     "options": [
       "Pepperoni",
       "Mushrooms",
@@ -1174,7 +1174,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f67",
-    "text": "Name a country famous for its chocolate. (Question 67)",
+    "text": "Name a country famous for its chocolate.",
     "options": [
       "Switzerland",
       "Belgium",
@@ -1185,7 +1185,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f68",
-    "text": "Name an activity people do at the beach. (Question 68)",
+    "text": "Name an activity people do at the beach.",
     "options": [
       "Swim",
       "Sunbathe",
@@ -1196,7 +1196,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f69",
-    "text": "Name something you need to buy before a road trip. (Question 69)",
+    "text": "Name something you need to buy before a road trip.",
     "options": [
       "Snacks",
       "Gas",
@@ -1207,7 +1207,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f70",
-    "text": "Name a profession that requires a uniform. (Question 70)",
+    "text": "Name a profession that requires a uniform.",
     "options": [
       "Police",
       "Nurse",
@@ -1218,7 +1218,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f71",
-    "text": "Name something people lose all the time. (Question 71)",
+    "text": "Name something people lose all the time.",
     "options": [
       "Keys",
       "Phone",
@@ -1229,7 +1229,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f72",
-    "text": "Name an animal you might see at the zoo. (Question 72)",
+    "text": "Name an animal you might see at the zoo.",
     "options": [
       "Lion",
       "Monkey",
@@ -1240,7 +1240,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f73",
-    "text": "Name a reason someone might cry. (Question 73)",
+    "text": "Name a reason someone might cry.",
     "options": [
       "Sad",
       "Happy",
@@ -1251,7 +1251,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f74",
-    "text": "Name a fruit that is red. (Question 74)",
+    "text": "Name a fruit that is red.",
     "options": [
       "Apple",
       "Strawberry",
@@ -1262,7 +1262,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f75",
-    "text": "Name something you might find in a desk drawer. (Question 75)",
+    "text": "Name something you might find in a desk drawer.",
     "options": [
       "Pens",
       "Paperclips",
@@ -1273,7 +1273,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f76",
-    "text": "Name a popular board game. (Question 76)",
+    "text": "Name a popular board game.",
     "options": [
       "Monopoly",
       "Scrabble",
@@ -1284,7 +1284,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f77",
-    "text": "Name something people hate doing. (Question 77)",
+    "text": "Name something people hate doing.",
     "options": [
       "Laundry",
       "Dishes",
@@ -1295,7 +1295,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f78",
-    "text": "Name a common fear. (Question 78)",
+    "text": "Name a common fear.",
     "options": [
       "Spiders",
       "Heights",
@@ -1306,7 +1306,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f79",
-    "text": "Name a popular ice cream flavor. (Question 79)",
+    "text": "Name a popular ice cream flavor.",
     "options": [
       "Vanilla",
       "Chocolate",
@@ -1317,7 +1317,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f80",
-    "text": "Name a holiday people celebrate with family. (Question 80)",
+    "text": "Name a holiday people celebrate with family.",
     "options": [
       "Christmas",
       "Thanksgiving",
@@ -1328,7 +1328,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f81",
-    "text": "We asked 100 people: Name something you do when you wake up. (Question 81)",
+    "text": "We asked 100 people: Name something you do when you wake up.",
     "options": [
       "Brush teeth",
       "Check phone",
@@ -1339,7 +1339,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f82",
-    "text": "Name a reason you might be late to work. (Question 82)",
+    "text": "Name a reason you might be late to work.",
     "options": [
       "Traffic",
       "Overslept",
@@ -1350,7 +1350,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f83",
-    "text": "Name something you associate with a dog. (Question 83)",
+    "text": "Name something you associate with a dog.",
     "options": [
       "Bone",
       "Bark",
@@ -1361,7 +1361,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f84",
-    "text": "Name a food that is notoriously messy to eat. (Question 84)",
+    "text": "Name a food that is notoriously messy to eat.",
     "options": [
       "Spaghetti",
       "Ribs",
@@ -1372,7 +1372,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f85",
-    "text": "Name something you keep in your car glovebox. (Question 85)",
+    "text": "Name something you keep in your car glovebox.",
     "options": [
       "Napkins",
       "Manual",
@@ -1383,7 +1383,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f86",
-    "text": "Name a popular pizza topping. (Question 86)",
+    "text": "Name a popular pizza topping.",
     "options": [
       "Pepperoni",
       "Mushrooms",
@@ -1394,7 +1394,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f87",
-    "text": "Name a country famous for its chocolate. (Question 87)",
+    "text": "Name a country famous for its chocolate.",
     "options": [
       "Switzerland",
       "Belgium",
@@ -1405,7 +1405,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f88",
-    "text": "Name an activity people do at the beach. (Question 88)",
+    "text": "Name an activity people do at the beach.",
     "options": [
       "Swim",
       "Sunbathe",
@@ -1416,7 +1416,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f89",
-    "text": "Name something you need to buy before a road trip. (Question 89)",
+    "text": "Name something you need to buy before a road trip.",
     "options": [
       "Snacks",
       "Gas",
@@ -1427,7 +1427,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f90",
-    "text": "Name a profession that requires a uniform. (Question 90)",
+    "text": "Name a profession that requires a uniform.",
     "options": [
       "Police",
       "Nurse",
@@ -1438,7 +1438,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f91",
-    "text": "Name something people lose all the time. (Question 91)",
+    "text": "Name something people lose all the time.",
     "options": [
       "Keys",
       "Phone",
@@ -1449,7 +1449,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f92",
-    "text": "Name an animal you might see at the zoo. (Question 92)",
+    "text": "Name an animal you might see at the zoo.",
     "options": [
       "Lion",
       "Monkey",
@@ -1460,7 +1460,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f93",
-    "text": "Name a reason someone might cry. (Question 93)",
+    "text": "Name a reason someone might cry.",
     "options": [
       "Sad",
       "Happy",
@@ -1471,7 +1471,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f94",
-    "text": "Name a fruit that is red. (Question 94)",
+    "text": "Name a fruit that is red.",
     "options": [
       "Apple",
       "Strawberry",
@@ -1482,7 +1482,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f95",
-    "text": "Name something you might find in a desk drawer. (Question 95)",
+    "text": "Name something you might find in a desk drawer.",
     "options": [
       "Pens",
       "Paperclips",
@@ -1493,7 +1493,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f96",
-    "text": "Name a popular board game. (Question 96)",
+    "text": "Name a popular board game.",
     "options": [
       "Monopoly",
       "Scrabble",
@@ -1504,7 +1504,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f97",
-    "text": "Name something people hate doing. (Question 97)",
+    "text": "Name something people hate doing.",
     "options": [
       "Laundry",
       "Dishes",
@@ -1515,7 +1515,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f98",
-    "text": "Name a common fear. (Question 98)",
+    "text": "Name a common fear.",
     "options": [
       "Spiders",
       "Heights",
@@ -1526,7 +1526,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f99",
-    "text": "Name a popular ice cream flavor. (Question 99)",
+    "text": "Name a popular ice cream flavor.",
     "options": [
       "Vanilla",
       "Chocolate",
@@ -1537,7 +1537,7 @@ export const KENYAN_QUESTIONS_BANK: Question[] = [
   },
   {
     "id": "f100",
-    "text": "Name a holiday people celebrate with family. (Question 100)",
+    "text": "Name a holiday people celebrate with family.",
     "options": [
       "Christmas",
       "Thanksgiving",

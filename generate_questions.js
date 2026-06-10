@@ -91,7 +91,7 @@ const optionsLists = [
 ];
 
 for(let i=0; i<100; i++) {
-  let qText = templates[i % templates.length] + ' (Question ' + (i+1) + ')';
+  let qText = templates[i % templates.length];
   let opts = optionsLists[i % optionsLists.length];
   newQs.push({
     id: 'f' + (i+1),
