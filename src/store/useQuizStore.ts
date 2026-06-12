@@ -62,7 +62,7 @@ interface QuizState {
   _pollInterval: ReturnType<typeof setInterval> | null;
 
   // --- Actions ---
-  login: (phone: string, name?: string, action?: 'login' | 'register') => Promise<void>;
+  login: (phone: string, name?: string, action?: 'login' | 'register', password?: string) => Promise<void>;
   logout: () => void;
   setEntryFee: (fee: number) => void;
   setPlayerName: (name: string) => void;
@@ -227,10 +227,10 @@ export const useQuizStore = create<QuizState>()(
         });
       },
 
-      login: async (phone: string, name?: string, action?: 'login' | 'register') => {
+      login: async (phone: string, name?: string, action?: 'login' | 'register', password?: string) => {
         const data = await apiFetch('auth/login', {
           method: 'POST',
-          body: JSON.stringify({ phone, name, action }),
+          body: JSON.stringify({ phone, name, action, password }),
         });
         if (data.error) {
           throw new Error(data.error);

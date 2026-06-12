@@ -2,7 +2,7 @@
 
 import { useQuizStore } from '@/store/useQuizStore';
 import { useRouter } from 'next/navigation';
-import { Play, Users, Trophy, Wallet, AlertCircle, Phone, User, Loader2 } from 'lucide-react';
+import { Play, Users, Trophy, Wallet, AlertCircle, Phone, User, Loader2, Lock, Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 
@@ -12,6 +12,10 @@ function LoginScreen() {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
   const [phone, setPhone] = useState('07');
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -25,11 +29,24 @@ function LoginScreen() {
       setError('Please enter a display name for your profile.');
       return;
     }
+    if (!password) {
+      setError('Please enter your password.');
+      return;
+    }
+    if (activeTab === 'register' && password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
 
     setLoading(true);
     setError('');
     try {
-      await login(phone, activeTab === 'register' ? name.trim() : undefined, activeTab);
+      await login(
+        phone,
+        activeTab === 'register' ? name.trim() : undefined,
+        activeTab,
+        password
+      );
     } catch (err: any) {
       setError(err.message || 'Authentication failed. Please check your connection.');
     } finally {
@@ -56,7 +73,14 @@ function LoginScreen() {
           {/* Tab Selector */}
           <div className="flex bg-zinc-100 dark:bg-zinc-800/50 p-1 rounded-2xl mb-6 border border-zinc-200/50 dark:border-zinc-800">
             <button
-              onClick={() => { setActiveTab('login'); setError(''); }}
+              onClick={() => {
+                setActiveTab('login');
+                setError('');
+                setPassword('');
+                setConfirmPassword('');
+                setShowPassword(false);
+                setShowConfirmPassword(false);
+              }}
               className={clsx(
                 "flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-200",
                 activeTab === 'login'
@@ -67,7 +91,14 @@ function LoginScreen() {
               Log In
             </button>
             <button
-              onClick={() => { setActiveTab('register'); setError(''); }}
+              onClick={() => {
+                setActiveTab('register');
+                setError('');
+                setPassword('');
+                setConfirmPassword('');
+                setShowPassword(false);
+                setShowConfirmPassword(false);
+              }}
               className={clsx(
                 "flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-200",
                 activeTab === 'register'
@@ -84,8 +115,8 @@ function LoginScreen() {
           </h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-6 font-medium">
             {activeTab === 'login' 
-              ? 'Enter your M-Pesa phone number to login to your wallet.' 
-              : 'Sign up with your phone number and pick a username to get started.'}
+              ? 'Enter your phone number and password to access your account.' 
+              : 'Sign up with your details to create a secure wallet.'}
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -119,6 +150,54 @@ function LoginScreen() {
                     placeholder="e.g. Sniper254"
                     className="w-full bg-zinc-50 dark:bg-zinc-800/80 border-2 border-zinc-200 dark:border-zinc-700/80 rounded-xl pl-12 pr-4 py-3 font-bold text-zinc-900 dark:text-white focus:outline-none focus:border-green-500 dark:focus:border-green-500 transition-all text-sm"
                   />
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="block text-[10px] font-extrabold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full bg-zinc-50 dark:bg-zinc-800/80 border-2 border-zinc-200 dark:border-zinc-700/80 rounded-xl pl-12 pr-12 py-3 font-bold text-zinc-900 dark:text-white focus:outline-none focus:border-green-500 dark:focus:border-green-500 transition-all text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors focus:outline-none"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            {activeTab === 'register' && (
+              <div>
+                <label className="block text-[10px] font-extrabold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-2">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full bg-zinc-50 dark:bg-zinc-800/80 border-2 border-zinc-200 dark:border-zinc-700/80 rounded-xl pl-12 pr-12 py-3 font-bold text-zinc-900 dark:text-white focus:outline-none focus:border-green-500 dark:focus:border-green-500 transition-all text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors focus:outline-none"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
               </div>
             )}
