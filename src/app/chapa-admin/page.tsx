@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 
+const BASE = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+
 // Type definitions
 interface AdminStats {
   totalUsers: number;
@@ -115,11 +117,11 @@ export default function AdminDashboard() {
     setErrorMsg('');
     try {
       const [statsRes, usersRes, txRes, matchesRes, questionsRes] = await Promise.all([
-        fetch('/api/admin/stats'),
-        fetch(`/api/admin/users?query=${encodeURIComponent(searchQuery)}`),
-        fetch('/api/admin/transactions'),
-        fetch('/api/admin/matches'),
-        fetch('/api/admin/questions')
+        fetch(`${BASE}/api/admin/stats`),
+        fetch(`${BASE}/api/admin/users?query=${encodeURIComponent(searchQuery)}`),
+        fetch(`${BASE}/api/admin/transactions`),
+        fetch(`${BASE}/api/admin/matches`),
+        fetch(`${BASE}/api/admin/questions`)
       ]);
 
       if (!statsRes.ok || !usersRes.ok || !txRes.ok || !matchesRes.ok || !questionsRes.ok) {
@@ -157,7 +159,7 @@ export default function AdminDashboard() {
     e.preventDefault();
     setLoginError('');
     try {
-      const res = await fetch('/api/admin/login', {
+      const res = await fetch(`${BASE}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: adminEmail, password: adminPassword })
@@ -187,7 +189,7 @@ export default function AdminDashboard() {
 
     setIsAdjusting(true);
     try {
-      const res = await fetch(`/api/admin/users/${selectedUser.id}/adjust-balance`, {
+      const res = await fetch(`${BASE}/api/admin/users/${selectedUser.id}/adjust-balance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: amountNum })
@@ -212,7 +214,7 @@ export default function AdminDashboard() {
   const handleDeleteQuestion = async (id: string) => {
     if (!confirm('Are you sure you want to delete this question?')) return;
     try {
-      const res = await fetch(`/api/admin/questions/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${BASE}/api/admin/questions/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         refreshData();
@@ -235,8 +237,8 @@ export default function AdminDashboard() {
 
     setIsSavingQuestion(true);
     const url = selectedQuestion 
-      ? `/api/admin/questions/${selectedQuestion.id}` 
-      : '/api/admin/questions';
+      ? `${BASE}/api/admin/questions/${selectedQuestion.id}` 
+      : `${BASE}/api/admin/questions`;
     const method = selectedQuestion ? 'PUT' : 'POST';
 
     try {
