@@ -62,7 +62,7 @@ interface QuizState {
   _pollInterval: ReturnType<typeof setInterval> | null;
 
   // --- Actions ---
-  login: (phone: string, name?: string) => Promise<void>;
+  login: (phone: string, name?: string, action?: 'login' | 'register') => Promise<void>;
   logout: () => void;
   setEntryFee: (fee: number) => void;
   setPlayerName: (name: string) => void;
