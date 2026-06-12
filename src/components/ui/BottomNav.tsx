@@ -8,11 +8,15 @@ import { useQuizStore } from '@/store/useQuizStore';
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const { matchStatus } = useQuizStore();
+  const { matchStatus, userId } = useQuizStore();
+
+  // Don't show bottom nav if user is not authenticated
+  if (!userId) return null;
 
   // Don't show bottom nav during an active quiz to maximize screen real estate
   if (matchStatus === 'live' || matchStatus === 'finished') return null;
   if (pathname === '/quiz') return null;
+  if (pathname?.startsWith('/chapa-admin')) return null;
 
   const navItems = [
     { name: 'Play', path: '/', icon: Play },

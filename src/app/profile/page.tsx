@@ -3,17 +3,24 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, User, Settings, LogOut, Edit2, Check, Bell, Volume2 } from 'lucide-react';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useQuizStore } from '@/store/useQuizStore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
 export default function Profile() {
   const router = useRouter();
-  const { playerName, setPlayerName, walletBalance } = useQuizStore();
+  const { userId, playerName, setPlayerName, walletBalance, logout } = useQuizStore();
   
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(playerName);
   const [notifications, setNotifications] = useState(true);
   const [sound, setSound] = useState(true);
+
+  // Redirect to home if not logged in
+  useEffect(() => {
+    if (!userId) {
+      router.push('/');
+    }
+  }, [userId, router]);
 
   const handleSaveName = () => {
     if (editName.trim().length > 0) {
@@ -89,7 +96,10 @@ export default function Profile() {
           </button>
         </div>
 
-        <button className="bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 p-4 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all mt-4">
+        <button 
+          onClick={logout}
+          className="bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 p-4 rounded-2xl flex items-center justify-center gap-2 font-bold transition-all mt-4"
+        >
           <LogOut className="w-5 h-5" />
           Logout
         </button>

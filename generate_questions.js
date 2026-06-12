@@ -64,7 +64,27 @@ const templates = [
   'Name something people hate doing.',
   'Name a common fear.',
   'Name a popular ice cream flavor.',
-  'Name a holiday people celebrate with family.'
+  'Name a holiday people celebrate with family.',
+  'Name a popular sport in Kenya.',
+  'Name something you bring to a picnic.',
+  'Name a common subject taught in school.',
+  'Name something that has keys.',
+  'Name a popular social media platform.',
+  'Name something you find in a kitchen.',
+  'Name a bird that cannot fly.',
+  'Name a popular movie genre.',
+  'Name something you might find in a bathroom.',
+  'Name a transportation method.',
+  'Name a color in the rainbow.',
+  'Name something you buy at a bakery.',
+  'Name a planet in our solar system.',
+  'Name a musical instrument.',
+  'Name something you wear on your head.',
+  'Name a country bordering the Mediterranean Sea.',
+  'Name a standard unit of measurement.',
+  'Name something associated with witches.',
+  'Name a common vegetable.',
+  'Name something you do before going to sleep.'
 ];
 
 const optionsLists = [
@@ -87,10 +107,30 @@ const optionsLists = [
   ['Laundry', 'Dishes', 'Cleaning', 'Working'],
   ['Spiders', 'Heights', 'Public speaking', 'Dark'],
   ['Vanilla', 'Chocolate', 'Strawberry', 'Mint'],
-  ['Christmas', 'Thanksgiving', 'Easter', 'New Year']
+  ['Christmas', 'Thanksgiving', 'Easter', 'New Year'],
+  ['Football', 'Athletics', 'Rugby', 'Safari Rally'],
+  ['Blanket', 'Sandwiches', 'Basket', 'Frisbee'],
+  ['Mathematics', 'English', 'Science', 'History'],
+  ['Piano', 'Keyboard', 'Keychain', 'Lock'],
+  ['WhatsApp', 'TikTok', 'Instagram', 'Facebook'],
+  ['Stove', 'Refrigerator', 'Microwave', 'Blender'],
+  ['Ostrich', 'Penguin', 'Kiwi', 'Emu'],
+  ['Action', 'Comedy', 'Horror', 'Sci-Fi'],
+  ['Toothbrush', 'Soap', 'Towel', 'Mirror'],
+  ['Matatu', 'Train', 'Airplane', 'Motorcycle'],
+  ['Red', 'Blue', 'Yellow', 'Green'],
+  ['Bread', 'Cake', 'Croissant', 'Donut'],
+  ['Mars', 'Jupiter', 'Saturn', 'Venus'],
+  ['Guitar', 'Piano', 'Violin', 'Drums'],
+  ['Cap', 'Helmet', 'Hat', 'Beanie'],
+  ['Italy', 'Spain', 'Greece', 'Egypt'],
+  ['Meter', 'Kilogram', 'Liter', 'Second'],
+  ['Broomstick', 'Black cat', 'Cauldron', 'Spellbook'],
+  ['Carrot', 'Cabbage', 'Spinach', 'Onion'],
+  ['Brush teeth', 'Set alarm', 'Read book', 'Turn off lights']
 ];
 
-for(let i=0; i<100; i++) {
+for(let i=0; i<900; i++) {
   let qText = templates[i % templates.length];
   let opts = optionsLists[i % optionsLists.length];
   newQs.push({

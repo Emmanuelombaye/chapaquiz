@@ -1,8 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { KENYAN_QUESTIONS_BANK, Question } from './questions';
+import { Question } from './questions';
+import { io, Socket } from 'socket.io-client';
 
-type MatchStatus = 'idle' | 'waiting' | 'starting' | 'live' | 'finished';
+export type MatchStatus = 'idle' | 'waiting' | 'live' | 'finished' | 'invite';
+
+export interface RoomPlayer {
+  userId: string;
+  name: string;
+}
 
 interface Player {
   id: string;
@@ -11,198 +17,405 @@ interface Player {
   timeTaken: number;
 }
 
-interface QuizState {
-  // User/Wallet
-  playerName: string;
-  walletBalance: number;
-  
-  // Matchmaking
-  matchStatus: MatchStatus | 'invite';
-  playersInRoom: number;
-  targetPlayers: number;
-  entryFee: number;
-  privateMatchId: string | null;
-  
-  // Gameplay
-  questions: Question[];
-  currentQuestionIndex: number;
-  globalTimeLeft: number;
-  
-  // Leaderboard
-  leaderboard: Player[];
-  
-  // Actions
-  setPlayerName: (name: string) => void;
-  setWalletBalance: (balance: number) => void;
-  setEntryFee: (fee: number) => void;
-  setMatchStatus: (status: MatchStatus | 'invite') => void;
-  joinMatch: () => void;
-  createPrivateMatch: () => string;
-  joinPrivateMatch: (id: string, customFee?: number) => void;
-  submitAnswer: (questionIndex: number, selectedOption: number) => void;
-  endMatch: () => void;
-  decrementTimer: () => void;
+interface Transaction {
+  id: string;
+  type: string;
+  amount: number;
+  status: string;
+  mpesa_code: string | null;
+  created_at: string;
 }
 
-const shuffleArray = <T>(array: T[]): T[] => {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+interface QuizState {
+  // Auth
+  userId: string | null;
+  phone: string;
+  playerName: string;
+
+  // Wallet
+  walletBalance: number;
+  transactions: Transaction[];
+
+  // Matchmaking
+  matchStatus: MatchStatus;
+  playersInQueue: number;
+  entryFee: number;
+  privateMatchId: string | null;
+  privateRoomPlayers: RoomPlayer[];
+
+  // Gameplay
+  matchId: string | null;
+  questions: Pick<Question, 'id' | 'text' | 'options'>[];
+  currentQuestionIndex: number;
+  globalTimeLeft: number;
+  timerStart: string | null;
+  lastAnswerCorrect: boolean | null;
+
+  // Results
+  leaderboard: Player[];
+  winnerId: string | null;
+  winnings: number;
+  totalPot: number;
+  platformFee: number;
+
+  // Polling / Timer handles
+  _pollInterval: ReturnType<typeof setInterval> | null;
+
+  // --- Actions ---
+  login: (phone: string, name?: string) => Promise<void>;
+  logout: () => void;
+  setEntryFee: (fee: number) => void;
+  setPlayerName: (name: string) => void;
+  loadBalance: () => Promise<void>;
+  loadTransactions: () => Promise<void>;
+  deposit: (amount: number, phone: string, pin: string) => Promise<{ success: boolean; error?: string }>;
+  withdraw: (amount: number, phone: string) => Promise<{ success: boolean; error?: string }>;
+  joinMatch: () => Promise<void>;
+  leaveQueue: () => Promise<void>;
+  createPrivateMatch: () => Promise<string | null>;
+  joinPrivateMatch: (roomId: string) => Promise<void>;
+  startPrivateMatch: (roomId: string) => Promise<void>;
+  submitAnswer: (questionIndex: number, selectedOption: number) => Promise<void>;
+  stopPolling: () => void;
+  resetMatch: () => void;
+  connectSocket: () => void;
+}
+
+// --- Helpers ---
+const BASE = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+
+let socket: Socket | null = null;
+
+async function apiFetch(path: string, opts?: RequestInit) {
+  try {
+    const res = await fetch(`${BASE}/api/${path}`, {
+      headers: { 'Content-Type': 'application/json' },
+      ...opts,
+    });
+    if (!res.ok) {
+      try {
+        const errData = await res.json();
+        return { error: errData.error || `Server error (Status ${res.status})` };
+      } catch {
+        return { error: `Server error (Status ${res.status})` };
+      }
+    }
+    return res.json();
+  } catch (err) {
+    return { error: 'Network connection failed. Check your connection.' };
   }
-  return newArray;
-};
+}
 
 export const useQuizStore = create<QuizState>()(
   persist(
     (set, get) => ({
-      playerName: 'Player 1',
-      walletBalance: 150,
-      
+      // Auth
+      userId: null,
+      phone: '',
+      playerName: 'Player',
+
+      // Wallet
+      walletBalance: 0,
+      transactions: [],
+
+      // Matchmaking
       matchStatus: 'idle',
-      playersInRoom: 0,
-      targetPlayers: 5,
+      playersInQueue: 0,
       entryFee: 10,
       privateMatchId: null,
-      
+      privateRoomPlayers: [],
+
+      // Gameplay
+      matchId: null,
       questions: [],
       currentQuestionIndex: 0,
       globalTimeLeft: 60,
-      
+      timerStart: null,
+      lastAnswerCorrect: null,
+
+      // Results
       leaderboard: [],
-      
-      setPlayerName: (name) => set({ playerName: name }),
-      setWalletBalance: (balance) => set({ walletBalance: balance }),
-      setEntryFee: (fee) => set({ entryFee: fee }),
-      setMatchStatus: (status) => set({ matchStatus: status }),
-  
-  joinMatch: () => {
-    const { walletBalance, entryFee, matchStatus } = get();
-    if (matchStatus !== 'idle') return;
+      winnerId: null,
+      winnings: 0,
+      totalPot: 0,
+      platformFee: 0,
 
-    if (walletBalance >= entryFee) {
-      // Randomize players between 2 and 10
-      const randomTotalPlayers = Math.floor(Math.random() * 9) + 2;
-      
-      set({ 
-        walletBalance: walletBalance - entryFee,
-        matchStatus: 'waiting',
-        playersInRoom: 1,
-        targetPlayers: randomTotalPlayers,
-        questions: shuffleArray(KENYAN_QUESTIONS_BANK).slice(0, 5)
-      });
-      
-      // Simulate random players joining dynamically
-      let current = 1;
-      const interval = setInterval(() => {
-        current += Math.floor(Math.random() * 3) + 1;
-        if (current >= randomTotalPlayers) {
-          clearInterval(interval);
-          set({ playersInRoom: randomTotalPlayers, matchStatus: 'starting' });
-          setTimeout(() => set({ matchStatus: 'live', globalTimeLeft: 60, currentQuestionIndex: 0 }), 1000);
-        } else {
-          set({ playersInRoom: current });
+      _pollInterval: null,
+
+      // ----------------------------------------------------------------
+      connectSocket: () => {
+        const { userId } = get();
+        if (!userId || socket) return;
+
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || (typeof window !== 'undefined'
+          ? `${window.location.protocol}//${window.location.hostname}:5000`
+          : 'http://localhost:5000');
+
+        socket = io(backendUrl, {
+          autoConnect: true,
+          path: '/socket.io',
+          transports: ['websocket', 'polling'],
+        });
+
+        socket.on('connect', () => {
+          console.log('Socket connected');
+          socket?.emit('auth', userId);
+        });
+
+        socket.on('queue_update', ({ playersCount }: { playersCount: number }) => {
+          set({ playersInQueue: playersCount });
+        });
+
+        socket.on('match_found', (data: { matchId: string; targetPlayers: number; entryFee: number; questions: any[] }) => {
+          set({
+            matchStatus: 'live',
+            matchId: data.matchId,
+            questions: data.questions,
+            timerStart: new Date().toISOString(),
+            currentQuestionIndex: 0,
+            globalTimeLeft: 60,
+            lastAnswerCorrect: null,
+            leaderboard: [],
+          });
+        });
+
+        socket.on('timer_tick', ({ timeLeft }: { timeLeft: number }) => {
+          set({ globalTimeLeft: timeLeft });
+        });
+
+        socket.on('private_created', (data: { roomId: string; entryFee: number }) => {
+          set({
+            matchStatus: 'invite',
+            privateMatchId: data.roomId,
+          });
+        });
+
+        socket.on('private_update', (data: { players: RoomPlayer[]; entryFee: number }) => {
+          set({
+            privateRoomPlayers: data.players,
+            entryFee: data.entryFee,
+          });
+        });
+
+        socket.on('answer_result', (data: { questionIndex: number; correct: boolean; score: number; gameOver: boolean }) => {
+          set({ lastAnswerCorrect: data.correct });
+          if (!data.gameOver) {
+            // Move to next question after 600ms
+            setTimeout(() => {
+              set((s) => ({
+                currentQuestionIndex: Math.min(s.currentQuestionIndex + 1, s.questions.length - 1),
+                lastAnswerCorrect: null,
+              }));
+            }, 600);
+          }
+        });
+
+        socket.on('game_over', (data: { leaderboard: any[]; winnerId: string; winnings: number; totalPot: number; platformFee: number }) => {
+          set({
+            matchStatus: 'finished',
+            leaderboard: data.leaderboard,
+            winnerId: data.winnerId,
+            winnings: data.winnings,
+            totalPot: data.totalPot,
+            platformFee: data.platformFee,
+          });
+          get().loadBalance();
+        });
+
+        socket.on('error', (msg: string) => {
+          console.error('Socket error:', msg);
+        });
+      },
+
+      login: async (phone: string, name?: string, action?: 'login' | 'register') => {
+        const data = await apiFetch('auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ phone, name, action }),
+        });
+        if (data.error) {
+          throw new Error(data.error);
         }
-      }, 400);
-    }
-  },
+        if (data.id) {
+          set({
+            userId: data.id,
+            phone: data.phone,
+            playerName: data.name,
+            walletBalance: data.wallet_balance,
+            matchStatus: 'idle',
+          });
+          get().connectSocket();
+        }
+      },
 
-  createPrivateMatch: () => {
-    const roomId = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const { walletBalance, entryFee } = get();
-    if (walletBalance >= entryFee) {
-      set({
-        walletBalance: walletBalance - entryFee,
-        matchStatus: 'invite',
-        privateMatchId: roomId,
-        playersInRoom: 1,
-        targetPlayers: 5, // Private matches default to 5 unless host specifies otherwise
-        questions: shuffleArray(KENYAN_QUESTIONS_BANK).slice(0, 5)
-      });
-    }
-    return roomId;
-  },
+      logout: () => {
+        get().stopPolling();
+        if (socket) {
+          socket.disconnect();
+          socket = null;
+        }
+        set({
+          userId: null,
+          phone: '',
+          playerName: 'Player',
+          walletBalance: 0,
+          matchStatus: 'idle',
+          matchId: null,
+          privateRoomPlayers: [],
+        });
+      },
 
-  joinPrivateMatch: (id, customFee) => {
-    const feeToUse = customFee || get().entryFee;
-    const { walletBalance } = get();
-    
-    if (walletBalance >= feeToUse) {
-      // Setting entry fee to the host's custom fee for math purposes
-      set({
-        walletBalance: walletBalance - feeToUse,
-        entryFee: feeToUse,
-        matchStatus: 'waiting',
-        privateMatchId: id,
-        playersInRoom: 2,
-        targetPlayers: Math.floor(Math.random() * 4) + 2,
-        questions: shuffleArray(KENYAN_QUESTIONS_BANK).slice(0, 5)
-      });
-      
-      setTimeout(() => set({ matchStatus: 'starting' }), 2000);
-      setTimeout(() => set({ matchStatus: 'live', globalTimeLeft: 60, currentQuestionIndex: 0 }), 4000);
-    }
-  },
-  
-  submitAnswer: (questionIndex, selectedOption) => {
-    const { questions, currentQuestionIndex, endMatch } = get();
-    if (currentQuestionIndex < questions.length - 1) {
-      setTimeout(() => set({ currentQuestionIndex: currentQuestionIndex + 1 }), 500); 
-    } else {
-      setTimeout(() => endMatch(), 500); 
-    }
-  },
-  
-  endMatch: () => {
-    const { playersInRoom, entryFee, walletBalance } = get();
-    const myScore = Math.floor(Math.random() * 6);
-    const myTime = Math.floor(Math.random() * 30) + 10;
-    
-    // Generate leaderboard based on exact dynamic playersInRoom
-    const board = [{ id: '1', name: 'You', score: myScore, timeTaken: myTime }];
-    
-    for (let i = 2; i <= playersInRoom; i++) {
-      board.push({
-        id: i.toString(),
-        name: `Player ${i}`,
-        score: Math.floor(Math.random() * 6),
-        timeTaken: Math.floor(Math.random() * 40) + 15
-      });
-    }
-    
-    // Sort board by score (desc), then time (asc)
-    board.sort((a, b) => b.score - a.score || a.timeTaken - b.timeTaken);
-    
-    const didWin = board[0].id === '1';
-    
-    // Exact Math requested by user:
-    // Pot = 10 players * 10 fee = 100
-    // Winner = 100 minus 20% system fee = 80
-    const totalPot = playersInRoom * entryFee;
-    const platformFee = totalPot * 0.20;
-    const winnings = totalPot - platformFee;
-    
-    if (didWin) {
-      set({ walletBalance: walletBalance + winnings });
-    }
+      setEntryFee: (fee: number) => set({ entryFee: fee }),
+      setPlayerName: (name: string) => set({ playerName: name }),
 
-    set({
-      matchStatus: 'finished',
-      leaderboard: board
-    });
-  },
-  
-  decrementTimer: () => {
-    const { globalTimeLeft, matchStatus, endMatch } = get();
-    if (matchStatus === 'live' && globalTimeLeft > 0) {
-      set({ globalTimeLeft: globalTimeLeft - 1 });
-    } else if (matchStatus === 'live' && globalTimeLeft === 0) {
-      endMatch();
-    }
-  }
-}),
-{
-  name: 'chapaquiz-store'
-}
-));
+      // ----------------------------------------------------------------
+      loadBalance: async () => {
+        const { userId } = get();
+        if (!userId) return;
+        const data = await apiFetch(`wallet/balance/${userId}`);
+        if (data.balance !== undefined) set({ walletBalance: data.balance });
+      },
 
+      loadTransactions: async () => {
+        const { userId } = get();
+        if (!userId) return;
+        const data = await apiFetch(`wallet/transactions/${userId}`);
+        if (Array.isArray(data)) set({ transactions: data });
+      },
+
+      deposit: async (amount: number, phone: string, pin: string) => {
+        const { userId } = get();
+        if (!userId) return { success: false, error: 'Not logged in' };
+        const data = await apiFetch('wallet/deposit', {
+          method: 'POST',
+          body: JSON.stringify({ userId, amount, phone, pin }),
+        });
+        if (data.success) {
+          set({ walletBalance: data.newBalance });
+          get().loadTransactions();
+          return { success: true };
+        }
+        return { success: false, error: data.error };
+      },
+
+      withdraw: async (amount: number, phone: string) => {
+        const { userId } = get();
+        if (!userId) return { success: false, error: 'Not logged in' };
+        const data = await apiFetch('wallet/withdraw', {
+          method: 'POST',
+          body: JSON.stringify({ userId, amount, phone }),
+        });
+        if (data.success) {
+          set({ walletBalance: data.newBalance });
+          get().loadTransactions();
+          return { success: true };
+        }
+        return { success: false, error: data.error };
+      },
+
+      // ----------------------------------------------------------------
+      joinMatch: async () => {
+        const { userId, entryFee, matchStatus } = get();
+        if (!userId || matchStatus !== 'idle') return;
+
+        set({ matchStatus: 'waiting', playersInQueue: 1 });
+        get().connectSocket();
+
+        socket?.emit('join_queue', { tier: entryFee, userId });
+      },
+
+      leaveQueue: async () => {
+        const { userId } = get();
+        get().stopPolling();
+        set({ matchStatus: 'idle', playersInQueue: 0 });
+        if (userId) {
+          await apiFetch('queue/leave', { method: 'POST', body: JSON.stringify({ userId }) });
+        }
+        if (socket) {
+          socket.disconnect();
+          socket = null;
+        }
+      },
+
+      // ----------------------------------------------------------------
+      createPrivateMatch: async () => {
+        const { userId, entryFee } = get();
+        if (!userId) return null;
+        const data = await apiFetch('private/create', {
+          method: 'POST',
+          body: JSON.stringify({ userId, entryFee }),
+        });
+        if (data.roomId) {
+          set({ matchStatus: 'invite', privateMatchId: data.roomId });
+          get().connectSocket();
+          socket?.emit('join_private', { roomId: data.roomId, userId });
+          return data.roomId;
+        }
+        return null;
+      },
+
+      joinPrivateMatch: async (roomId: string) => {
+        const { userId } = get();
+        if (!userId) return;
+        const data = await apiFetch(`private/${roomId}/join`, {
+          method: 'POST',
+          body: JSON.stringify({ userId }),
+        });
+        if (data.success) {
+          set({ matchStatus: 'waiting', privateMatchId: roomId });
+          get().connectSocket();
+          socket?.emit('join_private', { roomId, userId });
+        }
+      },
+
+      startPrivateMatch: async (roomId: string) => {
+        const { userId } = get();
+        socket?.emit('start_private', { roomId, userId });
+      },
+
+      // ----------------------------------------------------------------
+      submitAnswer: async (questionIndex: number, selectedOption: number) => {
+        const { userId, matchId } = get();
+        if (!userId || !matchId) return;
+
+        socket?.emit('submit_answer', { matchId, questionIndex, selectedOption, userId });
+      },
+
+      // ----------------------------------------------------------------
+      stopPolling: () => {
+        const { _pollInterval } = get();
+        if (_pollInterval) {
+          clearInterval(_pollInterval);
+          set({ _pollInterval: null });
+        }
+      },
+
+      resetMatch: () => {
+        get().stopPolling();
+        set({
+          matchStatus: 'idle',
+          matchId: null,
+          questions: [],
+          currentQuestionIndex: 0,
+          globalTimeLeft: 60,
+          timerStart: null,
+          leaderboard: [],
+          lastAnswerCorrect: null,
+          privateMatchId: null,
+          winnerId: null,
+          winnings: 0,
+          privateRoomPlayers: [],
+        });
+      },
+    } as any),
+    {
+      name: 'chapaquiz-store',
+      partialize: (s) => ({
+        userId: s.userId,
+        phone: s.phone,
+        playerName: s.playerName,
+        walletBalance: s.walletBalance,
+        entryFee: s.entryFee,
+      }),
+    }
+  )
+);
